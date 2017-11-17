@@ -13,9 +13,13 @@ class TestCalibrate(unittest.TestCase):
     def test_ident(self):
         uut.process(IMG_DIR,TEST_OUT+"/"+IMG_DIR,cb,subC=(3,6))
 
+    def test_pipe(self):
+        uut.process(IMG_DIR,TEST_OUT+"/"+IMG_DIR,cb,subC=(3,6))
 
 def cb(img) :
     return img    
 
+def pipe(img) :
+    
 if __name__ == '__main__':
     unittest.main()

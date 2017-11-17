@@ -5,7 +5,17 @@ import glob
 
 class PerspectiveTrafo:
     M= []
+    DEFAULT_SRC = np.float32(
+        [[120, 720],
+            [550, 470],
+            [700, 470],
+            [1160, 720]])
 
+    DEFAULT_DST = np.float32(
+        [[200,720],
+            [200,0],
+            [1080,0],
+            [1080,720]])
     def __init__(self, src,dst,img_size=(1300,1300)):
         self.M = cv2.getPerspectiveTransform(src,dst)
         self.Minv = cv2.getPerspectiveTransform(dst,src)
