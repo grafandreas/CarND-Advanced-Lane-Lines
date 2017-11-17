@@ -3,6 +3,7 @@ import distorter
 import lanefinder
 import gradient
 import cv2
+import curvature
 
 class Pipeline:
     def __init__(self) :
@@ -17,17 +18,21 @@ class Pipeline:
       
         res = self.lf.findLanes(bw)
         if(res != None) :
-            (out,l,r) = res
+            (out,l,r,lcr,rcr) = res
             overlay(img,cv2.resize(out,(0,0),fx=0.25,fy=0.25),640,0)
             lanOv = self.lf.draw(out,l,r,self.tr)
             overlay(img,cv2.resize(lanOv,(0,0),fx=0.25,fy=0.25),960,0)
             img = cv2.addWeighted(img, 1, lanOv, 0.3, 0)
+            (lcurve,rcurve) =  curvature.curvature(lcr,rcr)
+            cv2.putText(img,"Curvature : "+'{:06.2f}'.format(lcurve)+" - "+ '{:06.2f}'.format(rcurve), (500,300), cv2.FONT_HERSHEY_SIMPLEX,1.0,[255,255,255])
         else:
             print("Lane find was none")
 
         overlay(img,cv2.resize(limg,(0,0),fx=0.25,fy=0.25),0,0)
         bwrgb = cv2.cvtColor(bw,cv2.COLOR_GRAY2RGB)
         overlay(img,cv2.resize(bwrgb,(0,0),fx=0.25,fy=0.25),320,0)
+
+        
         return img   
 
 

@@ -3,6 +3,11 @@ import cv2
 import matplotlib.pyplot as plt
 import perspective
 
+
+ym_per_pix = 20/720 # meters per pixel in y dimension
+xm_per_pix = 3.7/700 # meters per pixel in x dimension
+
+
 class LaneFinder:
 
     def __init__(self) :
@@ -10,9 +15,9 @@ class LaneFinder:
 
     def findLanes(self,img) :
         if(not self.callNext) :
-            out_img, self.left_fit,self.right_fit = self.findLanes1st(img)
+            out_img, self.left_fit,self.right_fit,lcr,rcr = self.findLanes1st(img)
             self.callNext = True
-            return out_img, self.left_fit, self.right_fit
+            return out_img, self.left_fit, self.right_fit,lcr,rcr
         else:
             return self.findLanesNext(img,self.left_fit, self.right_fit)
 
@@ -89,7 +94,10 @@ class LaneFinder:
         left_fit = np.polyfit(lefty, leftx, 2)
         right_fit = np.polyfit(righty, rightx, 2)
 
-        return out_img, left_fit,right_fit
+        left_fit_cr = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+        right_fit_cr = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
+        
+        return out_img, left_fit,right_fit, left_fit_cr, right_fit_cr
 
     def findLanesNext(self,binary_warped,left_fit,right_fit) :
         nonzero = binary_warped.nonzero()
@@ -113,12 +121,13 @@ class LaneFinder:
         left_fit = np.polyfit(lefty, leftx, 2)
         right_fit = np.polyfit(righty, rightx, 2)
        
-       
+        left_fit_cr = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+        right_fit_cr = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
 
         out_img = np.dstack((binary_warped, binary_warped, binary_warped))*255
         out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 0]
         out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 0, 255]
-        return out_img, left_fit, right_fit
+        return out_img, left_fit, right_fit, left_fit_cr,right_fit_cr
 
     def draw(self, binary_warped, left_fit, right_fit, tr) :
         # Generate x and y values for plotting

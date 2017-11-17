@@ -22,7 +22,7 @@ class TestVideo(unittest.TestCase):
         p = pipeline.Pipeline()
         uut.process(IMG_DIR,TEST_OUT+"/C1"+IMG_DIR,p.process,subC=(21,24))
 
-      def test_contrast2(self):
+    def test_contrast2(self):
         p = pipeline.Pipeline()
         uut.process(IMG_DIR,TEST_OUT+"/C2"+IMG_DIR,p.process,subC=(39,41))    
 
