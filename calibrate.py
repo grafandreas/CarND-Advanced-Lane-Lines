@@ -9,13 +9,7 @@ objp = np.zeros((9*6,3), np.float32)
 objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
 
 
-def loadImages(path):
-    image_list=[]
-    for fn in glob.glob(path+"/*.jpg"):
-        im = cv2.imread(fn)
-        gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-        image_list.append(gray)
-    return image_list
+
 
 def findCorner(img) :
     ret, corners = cv2.findChessboardCorners(img, CHESS, None)

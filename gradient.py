@@ -3,13 +3,7 @@ import numpy as np
 import glob
 
 
-def loadImages(path):
-    image_list=[]
-    for fn in glob.glob(path+"/*.jpg"):
-        im = cv2.imread(fn)
-        gray = cv2.cvtColor(im,cv2.COLOR_BGR2RGB)
-        image_list.append(gray)
-    return image_list
+
 
 # NOTE: Taken from course material
 
