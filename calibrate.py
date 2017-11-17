@@ -1,6 +1,7 @@
 import cv2
 import glob
 import numpy as np
+import imageloader
 
 CHESS=(9,6)
 
@@ -28,7 +29,7 @@ def calcCalibration(coL):
     return ret, mtx, dist, rvecs, tvecs
 
 def calibrateFromDir(path):
-        imgs = loadImages(path)
+        imgs = imageloader.loadImagesRGB(path)
         cML = []
         for img in imgs:
              ret, corners = findCorner(img)
