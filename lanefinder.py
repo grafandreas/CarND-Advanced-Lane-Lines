@@ -141,9 +141,9 @@ class LaneFinder:
 
         # Warp the blank back to original image space using inverse perspective matrix (Minv)
         #newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0])) 
-        #newwarp = tr.warpInv(color_warp,(color_warp.shape[1], color_warp.shape[0]))
+        newwarp = tr.warpInv(color_warp,(color_warp.shape[1], color_warp.shape[0]))
         # Combine the result with the original image
         # result = cv2.addWeighted(undist, 1, newwarp, 0.3, 0)
-        newwarp = color_warp
+        #newwarp = color_warp
 
         return newwarp

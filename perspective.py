@@ -25,4 +25,4 @@ class PerspectiveTrafo:
         return cv2.warpPerspective(img, self.M, self.img_size, flags=cv2.INTER_LINEAR)
 
     def warpInv(self,img, img_size) :
-        return cv2.warpPerspective(img, self.M, img_size, flags=cv2.INTER_LINEAR)
+        return cv2.warpPerspective(img, self.Minv, img_size, flags=cv2.INTER_LINEAR)

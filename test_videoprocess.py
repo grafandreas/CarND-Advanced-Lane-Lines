@@ -16,7 +16,15 @@ class TestVideo(unittest.TestCase):
 
     def test_pipe(self):
         p = pipeline.Pipeline()
-        uut.process(IMG_DIR,TEST_OUT+"/N"+IMG_DIR,p.process,subC=(0,120))
+        uut.process(IMG_DIR,TEST_OUT+"/L"+IMG_DIR,p.process,subC=(0,5))
+
+    def test_contrast1(self):
+        p = pipeline.Pipeline()
+        uut.process(IMG_DIR,TEST_OUT+"/C1"+IMG_DIR,p.process,subC=(21,24))
+
+      def test_contrast2(self):
+        p = pipeline.Pipeline()
+        uut.process(IMG_DIR,TEST_OUT+"/C2"+IMG_DIR,p.process,subC=(39,41))    
 
 def cb(img) :
     return img    
