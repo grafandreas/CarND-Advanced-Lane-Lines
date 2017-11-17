@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import perspective
+
 class LaneFinder:
 
     def __init__(self) :
@@ -110,7 +112,38 @@ class LaneFinder:
         # Fit a second order polynomial to each
         left_fit = np.polyfit(lefty, leftx, 2)
         right_fit = np.polyfit(righty, rightx, 2)
+       
+       
+
+        out_img = np.dstack((binary_warped, binary_warped, binary_warped))*255
+        out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 0]
+        out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 0, 255]
+        return out_img, left_fit, right_fit
+
+    def draw(self, binary_warped, left_fit, right_fit, tr) :
         # Generate x and y values for plotting
         ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
         left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
         right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+
+        # Create an image to draw the lines on
+        color_warp = np.zeros_like(binary_warped).astype(np.uint8)
+        #color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+
+        # Recast the x and y points into usable format for cv2.fillPoly()
+        pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+        pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+        pts = np.hstack((pts_left, pts_right))
+
+        # Draw the lane onto the warped blank image
+        #print(color_warp.shape)
+        cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+
+        # Warp the blank back to original image space using inverse perspective matrix (Minv)
+        #newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0])) 
+        #newwarp = tr.warpInv(color_warp,(color_warp.shape[1], color_warp.shape[0]))
+        # Combine the result with the original image
+        # result = cv2.addWeighted(undist, 1, newwarp, 0.3, 0)
+        newwarp = color_warp
+
+        return newwarp

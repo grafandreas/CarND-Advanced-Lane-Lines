@@ -24,5 +24,5 @@ class PerspectiveTrafo:
     def warp(self,img) :
         return cv2.warpPerspective(img, self.M, self.img_size, flags=cv2.INTER_LINEAR)
 
-    def warpInv(self,img) :
-        return cv2.warpPerspective(img, self.M)#, img_size, flags=cv2.INTER_LINEAR)
+    def warpInv(self,img, img_size) :
+        return cv2.warpPerspective(img, self.M, img_size, flags=cv2.INTER_LINEAR)

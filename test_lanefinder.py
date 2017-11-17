@@ -16,6 +16,8 @@ class TestCalibrate(unittest.TestCase):
             (o,l,r) = lf.findLanes(img)
             imageloader.saveRGB(o,TEST_OUT+"/lane"+str(i)+".jpg")
             o = lf.findLanes(img)
+            if(not o!= None):
+                print("F")
 
 if __name__ == '__main__':
     unittest.main()

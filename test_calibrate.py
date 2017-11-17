@@ -25,7 +25,7 @@ class TestCalibrate(unittest.TestCase):
                 img = cv2.drawChessboardCorners(img, (8,6), corners, ret)
                 cv2.imwrite(TEST_OUT+"/"+str(i)+"c.png",img)
 
-    def test_02_calibrate(self):
+    def itest_02_calibrate(self):
         ret, mtx, dist, rvecs, tvecs = uut.calibrateFromDir(CAMERA_CAL)
         print(ret)
         print(mtx)
