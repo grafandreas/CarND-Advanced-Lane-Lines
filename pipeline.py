@@ -21,7 +21,7 @@ class Pipeline:
         bw2 = threshold.thresholdYellow(limg)
 
         bw = np.maximum(bw,bw2)
-        
+
         res = self.lf.findLanes(bw)
         if(res != None) :
             (out,l,r,lcr,rcr) = res
@@ -31,6 +31,8 @@ class Pipeline:
             img = cv2.addWeighted(img, 1, lanOv, 0.3, 0)
             (lcurve,rcurve) =  curvature.curvature(lcr,rcr)
             cv2.putText(img,"Curvature : "+'{:06.2f}'.format(lcurve)+" - "+ '{:06.2f}'.format(rcurve), (500,300), cv2.FONT_HERSHEY_SIMPLEX,1.0,[255,255,255])
+            (ll,lr,coff) = curvature.lanepos(l,r)
+            cv2.putText(img,"Pos : "+'{:06.2f}'.format(ll)+" - "+ '{:06.2f}'.format(lr)+" - "+ '{:06.2f}m'.format(coff), (500,340), cv2.FONT_HERSHEY_SIMPLEX,1.0,[255,255,255])
         else:
             print("Lane find was none")
 

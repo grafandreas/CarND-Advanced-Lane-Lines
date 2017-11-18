@@ -1,9 +1,10 @@
 import numpy as np
+import numpy.polynomial.polynomial as poly
 
-ym_per_pix = 30/720 # meters per pixel in y dimension
+ym_per_pix = 20/720 # meters per pixel in y dimension
 xm_per_pix = 3.7/700 # meters per pixel in x dimension
 ploty = np.linspace(0, 719, num=720)
-
+IMG_WIDTH_HLF = 640
 def curvature(left_fit_cr,right_fit_cr) :
     y_eval = np.max(ploty)
 
@@ -13,5 +14,16 @@ def curvature(left_fit_cr,right_fit_cr) :
 
     return left_curverad,right_curverad
     
+def lanepos(left_fit,right_fit) :
+    y_eval = np.max(ploty)
+   
+    left_fit = np.flip(left_fit,0)
+    right_fit = np.flip(right_fit,0)
+    leftl = poly.polyval(y_eval,left_fit)
+    rightl = poly.polyval(y_eval,right_fit)
+
+    caroff  = (leftl+(rightl-leftl)/2-640)*xm_per_pix
+
+    return leftl,rightl,caroff
 
     
