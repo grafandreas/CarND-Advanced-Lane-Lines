@@ -15,3 +15,12 @@ def thresholdS(img,thresh=(0,255),value=1):
     binary = np.zeros_like(S)
     binary[(S >= thresh[0]) & (S <= thresh[1])] = value
     return binary
+
+def thresholdRGB(img,thresh=(0,255),value=1):
+    hls = cv2.cvtColor(img,cv2.COLOR_RGB2HLS)
+    return thresholdS(hls,thresh,value)
+
+def thresholdYellow(img) :
+    imgHSV = cv2.cvtColor(img,cv2.COLOR_RGB2HSV)
+    res = cv2.inRange(imgHSV, np.array( [20, 100, 100]), np.array( [30, 255, 255] ) )
+    return res

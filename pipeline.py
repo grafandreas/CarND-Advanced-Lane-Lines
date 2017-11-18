@@ -4,6 +4,8 @@ import lanefinder
 import gradient
 import cv2
 import curvature
+import threshold
+import numpy as np
 
 class Pipeline:
     def __init__(self) :
@@ -14,8 +16,12 @@ class Pipeline:
     def process(self,img) :
         limg = self.ds.distortx(img)
         limg = self.tr.warp(limg) 
+
         bw = gradient.abs_sobel_thresh(limg,thresh_min=30,thresh_max=170,value=255)
-      
+        bw2 = threshold.thresholdYellow(limg)
+
+        bw = np.maximum(bw,bw2)
+        
         res = self.lf.findLanes(bw)
         if(res != None) :
             (out,l,r,lcr,rcr) = res
