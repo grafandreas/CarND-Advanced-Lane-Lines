@@ -8,7 +8,7 @@ class PerspectiveTrafo:
     DEFAULT_SRC = np.float32(
         [[120, 720],
             [550, 470],
-            [700, 470],
+            [730, 470],
             [1160, 720]])
 
     DEFAULT_DST = np.float32(
